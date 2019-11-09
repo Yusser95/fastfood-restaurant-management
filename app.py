@@ -5,6 +5,7 @@ import sys
 import os
 from flask import Flask, jsonify, Blueprint, current_app, session, request, flash, url_for, redirect, render_template, abort ,g, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+import flask_login
 
 cwd = os.getcwd()
 
@@ -58,22 +59,25 @@ app.register_blueprint(employee_salary_blueprint,url_prefix='/')
 
 
 @app.route('/admin')
+@flask_login.login_required
 def show_admin(name=None):
 
 	return render_template('admin/admin.html', name=name)
 
 
 @app.route('/user')
+@flask_login.login_required
 def show_user(name=None):
 
 	return render_template('user/index.html', name=name)
 
 
 @app.route('/')
+@flask_login.login_required
 @app.route('/<name>')
 def hello_world(name=None):
-
-	return render_template('hello.html', name=name)
+	# return render_template('hello.html', name=name)
+    return redirect('/admin')
 
 
 
