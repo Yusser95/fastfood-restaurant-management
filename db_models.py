@@ -54,7 +54,7 @@ class UnitModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
-    value_per_kg = db.Column(db.String(50), unique=True, nullable=False)
+    value_per_kg = db.Column(db.String(50), nullable=False)
 
     created_at = db.Column( db.DateTime , nullable=True)
     updated_at = db.Column( db.DateTime , nullable=True)
