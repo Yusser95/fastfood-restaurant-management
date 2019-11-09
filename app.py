@@ -73,8 +73,8 @@ def show_user(name=None):
 
 
 @app.route('/')
-@flask_login.login_required
 @app.route('/<name>')
+@flask_login.login_required
 def hello_world(name=None):
 	# return render_template('hello.html', name=name)
     return redirect('/admin')
