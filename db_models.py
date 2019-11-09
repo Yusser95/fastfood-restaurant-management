@@ -40,9 +40,10 @@ class EmployeeModel(db.Model):
 
     def get_salary_by_month(self,date_filter):
         amount = 0
-        obj = EmployeeSalaryModel.query.filter_by(employee_id=self.id,date_filter=date_filter).first()#self.salaries.any(EmployeeSalaryModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).first()
-        if obj:
-            amount += obj.amount
+        objs = EmployeeSalaryModel.query.filter_by(employee_id=self.id,date_filter=date_filter,is_deleted=0).all()#self.salaries.any(EmployeeSalaryModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).first()
+        if objs:
+            for obj in objs:
+                amount += obj.amount
 
         amount += self.get_advances_by_month(date_filter)
 
@@ -51,7 +52,7 @@ class EmployeeModel(db.Model):
 
     def get_advances_by_month(self,date_filter):
         amount = 0
-        objs = EmployeeAdvanceModel.query.filter_by(employee_id=self.id,date_filter=date_filter).all()#self.advances.any(EmployeeAdvanceModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).all()
+        objs = EmployeeAdvanceModel.query.filter_by(employee_id=self.id,date_filter=date_filter,is_deleted=0).all()#self.advances.any(EmployeeAdvanceModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).all()
         if objs:
             for obj in objs:
                 amount += obj.amount
@@ -61,7 +62,7 @@ class EmployeeModel(db.Model):
 
     def get_hours_by_month(self,date_filter):
         hours = 0
-        objs = EmployeeHoursModel.query.filter_by(employee_id=self.id,date_filter=date_filter).all() #self.hours.any(EmployeeHoursModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).all()
+        objs = EmployeeHoursModel.query.filter_by(employee_id=self.id,date_filter=date_filter,is_deleted=0).all() #self.hours.any(EmployeeHoursModel.date_filter == date_filter)#.filter_by(date_filter = date_filter ,is_deleted=0).all()
         if objs:
             for obj in objs:
                 hours += obj.hours
