@@ -22,6 +22,7 @@ def data(employee_id=None):
         ColumnDT(EmployeeAdvanceModel.date_filter),
         ColumnDT(EmployeeAdvanceModel.amount),
         ColumnDT(EmployeeAdvanceModel.is_deleted),
+        ColumnDT(EmployeeAdvanceModel.created_at),
 
 
     ]

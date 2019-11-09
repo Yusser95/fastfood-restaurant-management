@@ -24,6 +24,7 @@ def data(employee_id=None):
         ColumnDT(EmployeeHoursModel.finished_at),
         ColumnDT(EmployeeHoursModel.hours),
         ColumnDT(EmployeeHoursModel.is_deleted),
+        ColumnDT(EmployeeHoursModel.created_at),
 
 
     ]
