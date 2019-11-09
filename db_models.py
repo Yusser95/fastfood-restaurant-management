@@ -70,7 +70,7 @@ class EmployeeModel(db.Model):
         return hours
 
     def calculate_salary_by_month(self, date_filter):
-        amount = self.get_hours_by_month(date_filter) * self.price_per_hour - self.get_advances_by_month(date_filter)
+        amount = self.get_hours_by_month(date_filter) * self.price_per_hour - self.get_salary_by_month(date_filter)
         return amount
 
 
