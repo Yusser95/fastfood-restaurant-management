@@ -3,5 +3,6 @@ gunicorn
 Flask
 Flask-SQLAlchemy
 mysqlclient
+psycopg2
 flask-login
 sqlalchemy-datatables
