@@ -29,9 +29,9 @@ app.debug = True
 
 print(cwd)
 from config import *
-app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://{}:{}@{}/{}'.format(DATABASR_USERNAME ,DATABASR_PASSWORD ,DATABASR_SERVER ,DATABASR_NAME)
+# app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://{}:{}@{}/{}'.format(DATABASR_USERNAME ,DATABASR_PASSWORD ,DATABASR_SERVER ,DATABASR_NAME)
 # app.config['SQLALCHEMY_DATABASE_URI'] =  'sqlite:///'+cwd+'/data.db' 
-# app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
