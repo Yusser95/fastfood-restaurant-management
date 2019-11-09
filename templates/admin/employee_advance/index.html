@@ -1,0 +1,111 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+
+        <div class="card-body">
+          
+
+          <div class="card">
+            <div class="card-header row">
+              <h3 class="col-lg-8">Employee Advance Management</h3>
+              {%if employee_id%}
+              <a href="/admin/employee_advance/create/{{employee_id}}" class="offset-3 col-lg-3 btn btn-success" style="float: right; font-size: 24px; margin: 6px;">Add New</a>
+              {% else %}
+              <a href="/admin/employee_advance/create" class="offset-3 col-lg-3 btn btn-success" style="float: right; font-size: 24px; margin: 6px;">Add New</a>
+              {% endif %}
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="dt_110x" class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                <tr>
+                  <th>id</th>
+                  <th>employee_id</th>
+                  <th>date_filter</th>
+                  <th>amount</th>
+                  <th>Actions</th>
+                  <th>Views</th>
+                  <th>Publishing</th>
+                </tr>
+                </thead>
+                
+               
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <div class="card-footer">
+              <a href="/admin/employee/index" class="btn btn-warning">Back</a>
+          </div>
+
+
+        </div>
+
+<script src={{ url_for('static',filename="plugins/jquery/jquery.min.js")}}></script>
+ <!-- <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script> -->
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+      var table = $('#dt_110x').DataTable({
+        "stateSave": true,
+        "responsive": true,
+        "paging":true,
+        "lengthMenu": [[ 50, 100, 1000, -1], [ 50, 100, 1000, "All"]],
+      // "lengthChange": true,
+        "pagingType": "full_numbers",
+        "processing": true,
+        "serverSide": true,
+        // "jQueryUI": true,
+        {%if employee_id%}
+        "ajax": "/admin/employee_advance/data/{{employee_id}}",
+        {% else %}
+        "ajax": "/admin/employee_advance/data",
+        {% endif %}
+        "columns": [
+            {"data": "0"},
+            {"data": "1"},
+            {"data": "2"},
+            {"data": "3"},
+            // {"data": "4"},
+            // {"data": "5"},
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                return '<a href="/admin/employee_advance/edit/'+data+'" class="nav-link">edit info</a>';
+              }
+            },
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                return '<a href="/admin/employee_advance/show/'+data+'" class="nav-link">show info</a>';
+              }
+            },
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                if (row[4] == 0){
+                  return '<a href="/admin/employee_advance/delete/'+data+'" class="nav-link" onclick="delete_confirm()">unpublish</a>';
+                }else{
+                  return '<a href="/admin/employee_advance/delete/'+data+'" class="nav-link" onclick="delete_confirm()">publish</a>';
+                }
+              }
+            },
+          ]
+      });
+    });
+
+
+
+    function delete_confirm(){
+      if(confirm('Are you sure, You Want to unpublish this?')) {
+      } else {
+       event.preventDefault(); 
+     }
+    }
+  </script>
+
+{% endblock %}

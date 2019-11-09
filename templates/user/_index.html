@@ -1,0 +1,169 @@
+{% extends "user/base.html" %}
+
+
+{% block body %}
+
+
+
+<div class="card col-md-5" >
+    <div class="card-header">
+      <h3 class="card-title">Input</h3>
+    </div>
+
+    <div class="card-body">
+
+      <textarea rows="5" placeholder="enter text to parse" id="text" class="form-control"></textarea>
+
+      <br>
+      <a href="#" class="btn btn-default" id="parse_text">PARSE TEXT</a>
+
+      
+      </div>
+  </div>
+
+  
+
+  <div class="card col-md-6 ">
+    <div class="card-header">
+      <h3 class="card-title">Result</h3>
+    </div>
+
+    <div class="card-body">
+
+      <h5>extracted intities:</h5>
+      <br>
+
+      <div class="col-md-11" id="rules_error_message"></div>
+
+      
+
+      </div>
+  </div>
+
+
+
+
+
+  
+
+
+<!-- jQuery -->
+<script src={{ url_for('static',filename="plugins/jquery/jquery.min.js")}}></script>
+
+<!-- Bootstrap 4 -->
+<script src={{ url_for('static',filename="plugins/bootstrap/js/bootstrap.bundle.min.js")}}></script>
+
+<!-- parsley.min -->
+<!-- <script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script> -->
+
+<!-- bootstrap-duration-picker -->
+<!-- <script src={{ url_for('static',filename="dist/js/bootstrap-duration-picker.js")}}></script> -->
+
+<!-- Select2 -->
+<script src={{ url_for('static',filename="plugins/select2/select2.full.min.js")}}></script>
+
+
+
+    <script type="text/javascript">
+    $(function() {
+
+
+    $("#parse_text").click(function(){
+      var text = $("#text").val()
+      $.ajax({
+              url: '/user/parse',
+              data: {
+                  text: text
+              },
+              timeout:100000000,
+              async:false,
+              error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                $('#rules_error_message').empty();
+                $('#rules_error_message').append('<div class="alert alert-danger" role="alert">'+"Status: " + textStatus+'</div>');
+                $('#rules_error_message').append('<div class="alert alert-danger" role="alert">'+"Error: " + errorThrown+'</div>');
+              },      
+              success: function(response) {
+
+                  // // var json = $.parseJSON(response);
+                  //  var json = response;
+                  //  // alert(json);
+                  //  // alert(response);
+                  //  // alert(response.logs);
+
+                   var res = JSON.stringify(response);
+                   alert(res);
+                  //  var cust_ents = JSON.stringify(json.data.custum_ents);
+
+                   $('#rules_error_message').empty();
+                   // $('#rules_error_message').append('<div role="alert">'+res+'</div>');
+
+
+
+                  var record = response.data;
+                  var ents_str = '';
+
+                  Object.keys(record.predefined).forEach(function(key) {
+                    console.log(key, record.predefined[key]);
+                    for (j = 0; j < record.predefined[key].length; j++){
+                      if (record.predefined[key][j].valid == '1' ){
+                        ents_str+= '<tr><td>'+key+'</td><td>'+record.predefined[key][j]['text']+'</td></tr>';
+                      }
+                      // alert(ents_str);
+
+                    }
+                  });
+
+                  $('#rules_error_message').append('<table style="width:100%">'+ents_str+'</table>');
+
+                  // var i;
+
+                  // var text = '';
+                  // var value = '';
+                  // for (i = 0; i < json.data.predefined.length; i++) {
+
+                  //   if (json.data.duckling[i]['text'].length > text.length){
+
+
+                  //     text = json.data.duckling[i]['text'];
+                  //     value = JSON.stringify(json.data.duckling[i]['value']['value']);
+                  //   }
+
+
+                    
+                  //   // if(text.startsWith("[error]")){
+                  //   //   $('#rules_error_message').append('<div class="alert alert-danger" role="alert">'+text+'</div>');
+                  //   // }else{
+                  //   //   $('#rules_error_message').append('<div class="alert alert-success" role="alert">'+text+'</div>');
+                  //   // }
+                    
+                  // }
+
+                  // Object.keys(json.data.predefined).forEach(function(key) {
+                  //     console.log(key, json.data.predefined[key]);
+                  //     $('#rules_error_message').append('<br>');
+                  //     $('#rules_error_message').append('<div role="alert"><h4>'+key+' : </h4><br>'+JSON.stringify(json.data.predefined[key])+'</div>');
+                  // });
+
+                  // // $('#rules_error_message').append('<br>');
+                  // // $('#rules_error_message').append('<div role="alert"><h4>intent : </h4><br>'+JSON.stringify(json.data.custom.intent.intent)+'</div>');
+
+                  // // $('#rules_error_message').append('<br>');
+                  // // $('#rules_error_message').append('<div role="alert"><h4>ml model entities : </h4><br>'+cust_ents+'</div>');
+                  
+                  // // $('#rules_error_message').append('<br>');
+                  // // $('#rules_error_message').append('<div role="alert"><h4>all_info extracted : </h4><br>'+res+'</div>');
+
+ 
+              }
+          });
+    });
+
+
+    
+
+
+
+    });
+    </script>
+
+{% endblock %}

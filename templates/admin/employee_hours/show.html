@@ -1,0 +1,60 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Show Employee Hours</h3>
+              </div>
+              <!-- /.card-header -->
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+                  <table style="width: 100%;">
+                    
+                    <tr>
+                      <td>employee_id</td>
+                      <td>{{item.employee_id}}</td>
+                    </tr>
+                    <tr>
+                      <td>name</td>
+                      <td>{{item.employee.firstname}} {{item.employee.lastname}}</td>
+                    </tr>
+                    <tr>
+                      <td>nickname</td>
+                      <td>{{item.employee.nickname}}</td>
+                    </tr>
+                    <tr>
+                      <td>started_at</td>
+                      <td>{{item.started_at}}</td>
+                    </tr>
+                    <tr>
+                      <td>finished_at</td>
+                      <td>{{item.finished_at}}</td>
+                    </tr>
+                    <tr>
+                      <td>hours</td>
+                      <td>{{item.hours}}</td>
+                    </tr>
+                  </table>
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <a href="/admin/employee_hours/index/{{item.employee_id}}" class="btn btn-warning">Back</a>
+
+                </div>
+
+               </div>
+
+
+{% endblock %}

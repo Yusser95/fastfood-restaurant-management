@@ -1,0 +1,6 @@
+pyinstaller
+Flask
+Flask-SQLAlchemy
+mysqlclient
+flask-login
+sqlalchemy-datatables

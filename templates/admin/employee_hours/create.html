@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit Employee hours</h3>
+              </div>
+
+
+
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/admin/employee_hours/create" method="post" enctype="multipart/form-data">
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+
+                  {% if employee_id %}
+                  <div class="form-group">
+                    <input type="hidden" class="form-control" id="employee_id" name="employee_id" placeholder="Enter employee employee_id" value="{{employee_id}}" required="">
+                  </div>
+                  {% else %}
+                  <div class="form-group">
+                    <label for="employee_id">employee_id</label>
+                    <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="Enter employee employee_id" required="">
+                  </div>
+                  {% endif %}
+
+
+                  <div class="form-group">
+                    <label for="started_at">started_at</label>
+                    <input type="text" class="form-control" id="started_at" name="started_at" placeholder="Enter employee started_at" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="finished_at">finished_at</label>
+                    <input type="text" class="form-control" id="finished_at" name="finished_at" placeholder="Enter employee finished_at" required="">
+                  </div>
+
+
+
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  {% if employee_id %}
+                  <a href="/admin/employee_hours/index/{{employee_id}}" class="btn btn-warning">Back</a>
+                  {% else %}
+                  <a href="/admin/employee_hours/index" class="btn btn-warning">Back</a>
+                  {% endif %}
+
+                </div>
+
+				</form>
+               </div>
+
+
+
+
+<script src={{ url_for('static',filename="node_modules/jquery/dist/jquery.js")}}></script>
+<script src={{ url_for('static',filename="node_modules/moment/moment.js")}}></script>
+<script src={{ url_for('static',filename="node_modules/bootstrap/js/transition.js")}}></script>
+<script src={{ url_for('static',filename="node_modules/bootstrap/js/collapse.js")}}></script>
+<script src={{ url_for('static',filename="node_modules/bootstrap/dist/js/bootstrap.min.js")}}></script>
+<script src={{ url_for('static',filename="node_modules/bootstrap-datetimepicker-npm/build/js/bootstrap-datetimepicker.min.js")}}></script>
+
+<!-- parsley.min -->
+<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+
+
+
+<script type="text/javascript">
+  $("#started_at").datetimepicker();
+
+  $("#finished_at").datetimepicker();
+
+</script>
+
+{% endblock %}

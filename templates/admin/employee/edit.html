@@ -1,0 +1,79 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit Employee</h3>
+              </div>
+
+
+
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/admin/employee/edit/{{item.id}}" method="post" enctype="multipart/form-data">
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+
+
+                  <div class="form-group">
+                    <label for="firstname">firstname</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter employee firstname" value="{{item.firstname}}" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="lastname">lastname</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter employee lastname" value="{{item.lastname}}" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="nickname">nickname</label>
+                    <input type="text" class="form-control" id="nickname" name="nickname" placeholder="Enter employee nickname" value="{{item.nickname}}" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="address">address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter employee address" value="{{item.address}}" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="phone_number">phone_number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter employee phone_number" value="{{item.phone_number}}" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="price_per_hour">price_per_hour</label>
+                    <input type="number" step="any" class="form-control" id="price_per_hour" name="price_per_hour" placeholder="Enter employee price_per_hour" value="{{item.price_per_hour}}" required="">
+                  </div>
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <a href="/admin/employee/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+				</form>
+               </div>
+
+<!-- parsley.min -->
+<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+
+{% endblock %}

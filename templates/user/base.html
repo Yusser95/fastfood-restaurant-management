@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Home</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href={{ url_for('static',filename="plugins/font-awesome/css/font-awesome.min.css")}}>
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href={{ url_for('static',filename="dist/css/adminlte.min.css")}}>
+
+
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  <!--select2-->
+  <link rel="stylesheet" href={{ url_for('static',filename="plugins/select2/select2.min.css")}}>
+
+
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+
+
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
+
+
+
+  <style type="text/css">
+
+
+  </style>
+
+
+
+
+
+
+
+
+</head>
+
+<body class="hold-transition">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand bg-white navbar-light border-bottom">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="/admin" class="nav-link">Manage</a>
+      </li>
+
+    </ul>
+
+
+    <ul class="navbar-nav">
+
+    </ul>
+
+    
+
+  </nav>
+  <!-- /.navbar -->
+
+
+  <br>
+
+
+  <div class="row justify-content-center">
+
+
+
+
+            {% block body %}
+            {% endblock %}
+
+
+
+    </div>
+
+
+    <br>
+    <br>
+
+
+
+  <footer class="">
+
+  </footer>
+
+
+</div>
+
+
+
+
+
+  
+
+
+
+</body>
+
+</html>

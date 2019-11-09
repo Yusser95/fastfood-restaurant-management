@@ -1,0 +1,207 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+
+        <div class="card-body">
+          
+
+          <div class="card">
+            <div class="card-header row">
+              <h3 class="col-lg-8">Employee Management</h3>
+              <a href="/admin/employee/create" class="col-lg-3 btn btn-success" style="float: right; font-size: 24px; margin: 6px;">Add New</a>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="dt_110x" class="table table-bordered table-striped" style="width:100%">
+                <thead>
+                <tr>
+                  <th>id</th>
+                  <th>Name</th>
+                  <th>Nick Name</th>
+                  <th>Business</th>
+                  <th>Actions</th>
+                  <th>Views</th>
+                  <th>Publishing</th>
+                </tr>
+                </thead>
+                
+               
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+
+        </div>
+
+
+<div id="business_modal" class="modal">
+  <label for="month_hours_modal_select">select month:</label>
+  <input type="hidden" name="employee_id" id="modal_employee_id">
+  <input type="hidden" name="business_type" id="modal_business_type">
+  <table class="table table-bordered table-striped" style="width:100%">
+
+    <tr>
+      <td>
+
+        <select id="month_hours_modal_select">
+          {% for i in range(2019,2031)%}
+            {% for j in range(1,13)%}
+              <option>{{i}}-{{j}}</option>
+            {% endfor %}
+          {% endfor %}
+          }
+        </select>
+      </td>
+      <td>
+        <a href="#" class="btn btn-success" id="modal_submit">submit</a>
+      </td>
+    </tr>
+    <tr>
+      <h4 id="month_hours_modal_result"></h4>
+    </tr>
+  </table>
+  
+  
+  
+  <a href="#" rel="modal:close">close</a>
+</div>
+
+
+
+
+<script src={{ url_for('static',filename="plugins/jquery/jquery.min.js")}}></script>
+ <!-- <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script> -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+
+
+
+ <script type="text/javascript">
+
+  function business_test(employee_id , business_type){
+    $('#modal_employee_id').val(employee_id);
+    $('#modal_business_type').val(business_type);
+    jQuery.noConflict();
+    $('#business_modal').modal();
+
+  }
+
+  $("#modal_submit").click(function(){
+      var date_filter = $('#month_hours_modal_select').val();
+      var employee_id = $('#modal_employee_id').val();
+      var business_type = $('#modal_business_type').val();
+      $('#month_hours_modal_result').empty();
+
+      $.ajax({
+            url: "/admin/employee/business/"+business_type+"/"+employee_id,
+            data: {
+                date_filter: date_filter
+            },
+            method:'POST',
+            timeout:500,
+            async:false,
+            success: function(response) {
+                if(response.status == 'success') {
+                  $('#month_hours_modal_result').empty();
+                  $('#month_hours_modal_result').append('Result is : '+response.result)
+
+                }
+                else {
+                    $('#month_hours_modal_result').empty();
+                    $('#month_hours_modal_result').append('<div class="alert alert-danger" role="alert">no results !!</div>');
+                }
+            }
+        });
+      
+    });
+</script>
+
+
+
+
+
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+      var table = $('#dt_110x').DataTable({
+        "stateSave": true,
+        "responsive": true,
+        "paging":true,
+        "lengthMenu": [[10, 25, 50, 100, 1000, -1], [10, 25, 50, 100, 1000, "All"]],
+      // "lengthChange": true,
+        "pagingType": "full_numbers",
+        "processing": true,
+        "serverSide": true,
+        // "jQueryUI": true,
+        "ajax": "/admin/employee/data",
+        "columns": [
+            {"data": "0"},
+            {
+              "data": "1",
+              "render": function ( data, type, row, meta ) {
+                return data + ' ' + row[2];
+              }
+            },
+            {"data": "3"},
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                return '<ul>'+
+                '<li><a class="nav-link" onclick="business_test('+data+' , '+"'"+'hours'+"'"+')" href="#">calculate month hours</a></li>'+
+                '<li><a class="nav-link" onclick="business_test('+data+' , '+"'"+'advance'+"'"+')" href="#">calculate month advance</a></li>'+
+                '<li><a class="nav-link" onclick="business_test('+data+' , '+"'"+'salary_with_advance'+"'"+')" href="#">calculate month salary with advance</a></li>'+
+                '<li><a class="nav-link" onclick="business_test('+data+' , '+"'"+'salary_without_advance'+"'"+')" href="#">calculate month without advance</a></li>'+
+                '</ul>';
+              }
+            },
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                return '<ul>'+
+                '<li><a href="/admin/employee/edit/'+data+'" class="nav-link">edit info</a></li>'+
+                '<li><a href="/admin/employee_hours/create/'+data+'" class="nav-link">add hours</a></li>'+
+                '<li><a href="/admin/employee_advance/create/'+data+'" class="nav-link">add advance</a></li>'+
+                '<li><a href="/admin/employee_salary/create/'+data+'" class="nav-link">add salary</a></li>'+
+                '</ul>';
+              }
+            },
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                return '<ul>'+
+                '<li><a href="/admin/employee/show/'+data+'" class="nav-link">show info</a></li>'+
+                '<li><a href="/admin/employee_hours/index/'+data+'" class="nav-link">show hours</a></li>'+
+                '<li><a href="/admin/employee_advance/index/'+data+'" class="nav-link">show advance</a></li>'+
+                '<li><a href="/admin/employee_salary/index/'+data+'" class="nav-link">show salary</a></li>'+
+                '</ul>';
+              }
+            },
+            {
+              "data": "0",
+              "render": function ( data, type, row, meta ) {
+                if (row[4] == 0){
+                  return '<a href="/admin/employee/delete/'+data+'" class="nav-link" onclick="delete_confirm()">unpublish</a>';
+                }else{
+                  return '<a href="/admin/employee/delete/'+data+'" class="nav-link" onclick="delete_confirm()">publish</a>';
+                }
+              }
+            },
+          ]
+      });
+    });
+
+
+
+    function delete_confirm(){
+      if(confirm('Are you sure, You Want to unpublish this?')) {
+      } else {
+       event.preventDefault(); 
+     }
+    }
+  </script>
+
+{% endblock %}

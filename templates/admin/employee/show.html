@@ -1,0 +1,59 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Show Employee</h3>
+              </div>
+              <!-- /.card-header -->
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+                  <table style="width: 100%;">
+                    <tr>
+                      <td>firstname</td>
+                      <td>{{item.firstname}}</td>
+                    </tr>
+                    <tr>
+                      <td>lastname</td>
+                      <td>{{item.lastname}}</td>
+                    </tr>
+                    <tr>
+                      <td>nickname</td>
+                      <td>{{item.nickname}}</td>
+                    </tr>
+                    <tr>
+                      <td>address</td>
+                      <td>{{item.address}}</td>
+                    </tr>
+                    <tr>
+                      <td>phone_number</td>
+                      <td>{{item.phone_number}}</td>
+                    </tr>
+                    <tr>
+                      <td>price_per_hour</td>
+                      <td>{{item.price_per_hour}}</td>
+                    </tr>
+                  </table>
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <a href="/admin/employee/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+               </div>
+
+
+{% endblock %}

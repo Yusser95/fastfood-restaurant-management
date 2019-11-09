@@ -1,0 +1,5 @@
+# 'mysql'
+DATABASR_SERVER   = 'localhost' 
+DATABASR_NAME     = 'pyinstaller'
+DATABASR_USERNAME = 'root'
+DATABASR_PASSWORD = 'root'
