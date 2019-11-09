@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit Ingredient Section</h3>
+              </div>
+
+
+
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/admin/ingredient_section/edit/{{item.id}}" method="post" enctype="multipart/form-data">
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+
+
+                  <div class="form-group">
+                    <label for="name"> name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{item.name}}" required="">
+                  </div>
+
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <a href="/admin/ingredient_section/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+				</form>
+               </div>
+
+<!-- parsley.min -->
+<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+
+{% endblock %}

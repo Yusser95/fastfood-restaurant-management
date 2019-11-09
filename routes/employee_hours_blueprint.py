@@ -85,9 +85,11 @@ def edit(id):
 
 		obj = EmployeeHoursModel.query.get(id)
 
-		obj.employee_id = request.form.get('employee_id')
-		obj.started_at = request.form.get('started_at')
-		obj.finished_at = request.form.get('finished_at')
+		employee_id = request.form.get('employee_id')
+		started_at = request.form.get('started_at')
+		finished_at = request.form.get('finished_at')
+
+		obj._update(employee_id=employee_id , started_at=started_at , finished_at=finished_at )
 
 		
 		db.session.commit()

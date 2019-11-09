@@ -83,8 +83,10 @@ def edit(id):
 
 		obj = EmployeeAdvanceModel.query.get(id)
 
-		obj.employee_id = request.form.get('employee_id')
-		obj.amount = request.form.get('amount')
+		employee_id = request.form.get('employee_id')
+		amount = request.form.get('amount')
+
+		obj._update(employee_id=employee_id , amount=amount )
 
 		
 		db.session.commit()

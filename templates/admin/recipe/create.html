@@ -1,0 +1,338 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Create Recipe</h3>
+              </div>
+
+
+
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/admin/recipe/create" method="post" enctype="multipart/form-data">
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+
+                  <div id="error_message"></div>
+
+
+                  <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category name" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label>tag</label>
+                    <select class="form-control select2" name="tag_id" data-placeholder="select tag" >
+                    </select>
+                  </div>
+
+
+                  <div class="form-group">
+                    <label for="direction">direction</label>
+                    <textarea rows = "5" class="form-control" id="direction" name="direction" placeholder="Enter direction" required=""></textarea>
+                  </div>
+
+
+
+
+
+                  <div class="form-group">
+
+                    <label for="files">ingredients</label>
+                    <div id="files">
+                        <p ><div class="form-group" id="file-000">
+                          <select style="width: 100%" class="form-control select22" name="ingredients[]" multiple="multiple" data-placeholder="Enter ingredient" required="">
+                          </select>
+                          <input type="number" step=any class="form-control" id="weights" name="weights[]" placeholder="Enter amount" required="" />
+                          <select class="form-control select2222" name="values[]" multiple="multiple" data-placeholder="Enter unit" required="">
+                          </select>
+                          <input type="button" value="Remove" onclick="removeElement('file-000');" />
+                        </div></p>
+                    </div>
+                    <p><input type="button" value="Add Ingredient" onclick="add_ingredient();" /></p>
+                  </div>
+
+
+
+
+
+
+
+
+                  <div class="form-group">
+                    <label for="recipe-img">Image</label>
+                        <input type="file" class="form-control" id="recipe-img" accept="image/*" name="image" >
+                    <img src="" class="img-thumbnail" id="foo" />
+                  </div>
+
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <a href="/admin/recipe/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+				</form>
+               </div>
+
+
+
+<!-- jQuery -->
+<script src={{ url_for('static',filename="plugins/jquery/jquery.min.js")}}></script>
+
+<!-- Bootstrap 4 -->
+<script src={{ url_for('static',filename="plugins/bootstrap/js/bootstrap.bundle.min.js")}}></script>
+
+<!-- parsley.min -->
+<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+<!-- <script src={{ url_for('static',filename="plugins/parsley/dist/parsley.remote.min.js")}}></script> -->
+
+<!-- Select2 -->
+<script src={{ url_for('static',filename="plugins/select2/select2.full.min.js")}}></script>
+
+
+
+<script type="text/javascript">
+          $('#recipe-img').change(function() {
+            $('#audio_file_name').text(this.files[0].name);
+          });
+</script>
+
+<script type="text/javascript">
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function (e) {
+                $('#foo').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#recipe-img").change(function(){
+        readURL(this);
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+
+
+    $("#name").change(function(){
+      var value = $('#name').val();
+      {% if item %}
+      var name = '{{item.name}}';
+      {% endif %}
+      if(name == value){
+        $('#error_message').empty();
+
+      }else{
+        $.ajax({
+              url: 'admin/recipe/validator/uniquename',
+              data: {
+                  name: value
+              },
+              success: function(response) {
+                  if(response.valid === 'true') {
+                    $('#error_message').empty();
+                  }
+                  else {
+                      $('#name').val('');
+                      $('#error_message').empty();
+                      $('#error_message').append('<div class="alert alert-danger" role="alert">name is alerady exists !!</div>');
+                  }
+              }
+          });
+      }
+    });
+
+
+
+    $('.select2').select2({
+    tags: false,
+    width: '100%',
+    tokenSeparators: [','],
+    
+    ajax: {
+        url: '/admin/recipe_tag/select',
+        dataType: 'json',
+        delay: 1000,
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id
+                    }
+                })
+            };
+        }
+    }
+  });
+
+
+
+
+    $('.select22').select2({
+    tags: true,
+    width: '100%',
+    maximumSelectionLength: 1,
+    tokenSeparators: [','],
+    ajax: {
+        url: '/admin/ingredient/select',
+        dataType: 'json',
+        delay: 700,
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id
+                    }
+                })
+            };
+        }
+    }
+  });
+
+    $('.select2222').select2({
+    tags: false,
+    width: '100%',
+    maximumSelectionLength: 1,
+    tokenSeparators: [','],
+    ajax: {
+        url: '/admin/unit/select',
+        dataType: 'json',
+        delay: 700,
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id
+                    }
+                })
+            };
+        }
+    }
+  });
+
+    });
+</script>
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+
+
+  function addElement(parentId, elementTag, elementId, html) {
+    // Adds an element to the document
+    var p = document.getElementById(parentId);
+    var newElement = document.createElement(elementTag);
+    newElement.setAttribute('id', elementId);
+    newElement.innerHTML = html;
+    p.appendChild(newElement);
+
+    }
+
+
+    function removeElement(elementId) {
+
+    // Removes an element from the document
+    var element = document.getElementById(elementId);
+    element.parentNode.removeChild(element);
+    
+    }
+
+
+
+    var fileId = 0; // used by the add_ingredient() function to keep track of IDs
+    function add_ingredient() {
+        fileId++; // increment fileId to get a unique ID for the new element
+        var html = '<div class="form-group">'+
+                          '<select class="form-control" id="ingr00-'+fileId+'" name="ingredients[]" multiple="multiple" data-placeholder="Enter ingredient" required="">'+
+                          '</select>'+
+                          '<input type="number" step=any class="form-control" id="weights" name="weights[]" placeholder="Enter amount" required="" />'+
+                          '<select class="form-control" id="ingr200-'+fileId+'" name="values[]" multiple="multiple" data-placeholder="Enter unit" required="">'+
+                          '</select>'+
+                          // '<input type="text" class="form-control" id="values" name="values[]" placeholder="Enter value" required="" />' +
+                                     // '<a href="" onClick="removeElement(this,file-' + fileId + ');">Remove</a></div>';
+                          '<input type="button" value="Remove" onclick="removeElement('+"'"+'file-00' + fileId +"'"+ ');" />'+
+                    '</div>';
+        addElement('files', 'p', 'file-00' + fileId, html);
+
+         $("#ingr00-"+fileId).select2({
+            tags: true,
+            width: '100%',
+            maximumSelectionLength: 1,
+            tokenSeparators: [','],
+            ajax: {
+                url: '/admin/ingredient/select',
+                dataType: 'json',
+                delay: 700,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.text,
+                                id: item.id
+                            }
+                        })
+                    };
+                }
+            }
+          });
+
+
+          $("#ingr200-"+fileId).select2({
+            tags: false,
+            width: '100%',
+            maximumSelectionLength: 1,
+            tokenSeparators: [','],
+            ajax: {
+                url: '/admin/unit/select',
+                dataType: 'json',
+                delay: 700,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.text,
+                                id: item.id
+                            }
+                        })
+                    };
+                }
+            }
+          });         
+    }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Create Ingredient</h3>
+              </div>
+
+
+
+
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" action="/admin/ingredient/create" method="post" enctype="multipart/form-data">
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+
+                  <div id="error_message"></div>
+
+
+                  <div class="form-group">
+                    <label for="name">name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Category name" required="">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label>section</label>
+                    <select class="form-control select2" name="section_id" data-placeholder="select section" >
+                    </select>
+                  </div>
+
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <a href="/admin/ingredient/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+				</form>
+               </div>
+
+
+
+<!-- jQuery -->
+<script src={{ url_for('static',filename="plugins/jquery/jquery.min.js")}}></script>
+
+<!-- Bootstrap 4 -->
+<script src={{ url_for('static',filename="plugins/bootstrap/js/bootstrap.bundle.min.js")}}></script>
+
+<!-- parsley.min -->
+<script src={{ url_for('static',filename="plugins/parsley/dist/parsley.min.js")}}></script>
+<!-- <script src={{ url_for('static',filename="plugins/parsley/dist/parsley.remote.min.js")}}></script> -->
+
+<!-- Select2 -->
+<script src={{ url_for('static',filename="plugins/select2/select2.full.min.js")}}></script>
+
+
+<script type="text/javascript">
+  $(document).ready(function () {
+
+
+
+    $("#name").change(function(){
+      var value = $('#name').val();
+      {% if item %}
+      var name = '{{item.name}}';
+      {% endif %}
+      if(name == value){
+        $('#error_message').empty();
+
+      }else{
+        $.ajax({
+              url: 'admin/ingredient/validator/uniquename',
+              data: {
+                  name: value
+              },
+              success: function(response) {
+                  if(response.valid === 'true') {
+                    $('#error_message').empty();
+                  }
+                  else {
+                      $('#name').val('');
+                      $('#error_message').empty();
+                      $('#error_message').append('<div class="alert alert-danger" role="alert">name is alerady exists !!</div>');
+                  }
+              }
+          });
+      }
+    });
+
+
+
+    $('.select2').select2({
+    tags: false,
+    width: '100%',
+    tokenSeparators: [','],
+    
+    ajax: {
+        url: '/admin/ingredient_section/select',
+        dataType: 'json',
+        delay: 1000,
+        processResults: function (data) {
+            return {
+                results: $.map(data, function (item) {
+                    return {
+                        text: item.text,
+                        id: item.id
+                    }
+                })
+            };
+        }
+    }
+  });
+
+    });
+</script>
+
+
+{% endblock %}

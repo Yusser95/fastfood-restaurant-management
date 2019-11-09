@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+
+
+{% block body %}
+
+<!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Show Ingredient Section</h3>
+              </div>
+              <!-- /.card-header -->
+
+                <div class="card-body">
+
+                <div class="col-lg-10">
+                  <table style="width: 100%;">
+                    
+
+                    <tr>
+                      <td>name</td>
+                      <td>{{item.name}}</td>
+                    </tr>
+                    <tr>
+                      <td>created_at</td>
+                      <td>{{item.created_at}}</td>
+                    </tr>
+                  </table>
+
+                </div>
+
+
+			</div>
+
+				
+		        <!-- /.col-->
+
+                <div class="card-footer">
+                  <a href="/admin/ingredient_section/index" class="btn btn-warning">Back</a>
+
+                </div>
+
+               </div>
+
+
+{% endblock %}

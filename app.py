@@ -29,9 +29,9 @@ app.debug = True
 
 print(cwd)
 from config import *
-# app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://{}:{}@{}/{}'.format(DATABASR_USERNAME ,DATABASR_PASSWORD ,DATABASR_SERVER ,DATABASR_NAME)
+app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://{}:{}@{}/{}'.format(DATABASR_USERNAME ,DATABASR_PASSWORD ,DATABASR_SERVER ,DATABASR_NAME)
 # app.config['SQLALCHEMY_DATABASE_URI'] =  'sqlite:///'+cwd+'/data.db' 
-app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get("DATABASE_URL")
+# app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -54,6 +54,16 @@ from routes.employee_advance_blueprint import employee_advance_blueprint
 app.register_blueprint(employee_advance_blueprint,url_prefix='/')
 from routes.employee_salary_blueprint import employee_salary_blueprint
 app.register_blueprint(employee_salary_blueprint,url_prefix='/')
+from routes.unit_blueprint import unit_blueprint
+app.register_blueprint(unit_blueprint,url_prefix='/')
+from routes.recipe_tag_blueprint import recipe_tag_blueprint
+app.register_blueprint(recipe_tag_blueprint,url_prefix='/')
+from routes.ingredient_section_blueprint import ingredient_section_blueprint
+app.register_blueprint(ingredient_section_blueprint,url_prefix='/')
+from routes.ingredient_blueprint import ingredient_blueprint
+app.register_blueprint(ingredient_blueprint,url_prefix='/')
+from routes.recipe_blueprint import recipe_blueprint
+app.register_blueprint(recipe_blueprint,url_prefix='/')
 
 
 
@@ -83,7 +93,10 @@ def hello_world(name=None):
 
 
 
-
+@app.route('/uploads/<path:path>')
+@flask_login.login_required
+def send_js(path):
+    return send_from_directory('public/uploads', path)
 
 
 

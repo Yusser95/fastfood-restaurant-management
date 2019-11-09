@@ -21,6 +21,8 @@ def data():
         ColumnDT(EmployeeModel.lastname),
         ColumnDT(EmployeeModel.nickname),
         ColumnDT(EmployeeModel.is_deleted),
+        ColumnDT(EmployeeModel.created_at),
+
 
 
     ]
@@ -88,12 +90,14 @@ def edit(id):
 
 		obj = EmployeeModel.query.get(id)
 
-		obj.firstname = request.form.get('firstname')
-		obj.lastname = request.form.get('lastname')
-		obj.nickname = request.form.get('nickname')
-		obj.address = request.form.get('address')
-		obj.phone_number = request.form.get('phone_number')
-		obj.price_per_hour = request.form.get('price_per_hour')
+		firstname = request.form.get('firstname')
+		lastname = request.form.get('lastname')
+		nickname = request.form.get('nickname')
+		address = request.form.get('address')
+		phone_number = request.form.get('phone_number')
+		price_per_hour = request.form.get('price_per_hour')
+
+		obj._update(firstname=firstname , lastname=lastname , nickname=nickname , address=address , phone_number=phone_number , price_per_hour=price_per_hour)
 
 		
 		db.session.commit()
