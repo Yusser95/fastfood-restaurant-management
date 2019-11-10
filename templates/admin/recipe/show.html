@@ -39,6 +39,25 @@
                       <td>created_at</td>
                       <td>{{item.created_at}}</td>
                     </tr>
+
+
+
+                    <tr>
+                      <td>ingredients</td>
+                      <td>
+                        <table class="table table-bordered table-striped" style="width:100%">
+                        {% for ing in item.ingredients %}
+                          <tr>
+                            <br>
+                            <td>{{ing.ingredient.name}}</td>
+                            <td>{{ing.amount}}</td>
+                            <td>{{ing.unit.name}}</td>
+                          </tr>
+
+                        {% endfor %}
+                        </table>
+                      </td>
+                    </tr>
                   </table>
 
                 </div>

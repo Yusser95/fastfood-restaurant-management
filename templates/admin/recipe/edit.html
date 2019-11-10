@@ -52,12 +52,12 @@
                         {% for in in item.ingredients %}
                         <p><div class="form-group" id="file-{{in.id}}">
 
-                          <select class="select22 form-control" name="ingredients[]" multiple="multiple" data-placeholder="Enter ingredient" required="">
+                          <select class="select22 form-control" id="si_{{in.id}}" name="ingredients[]" multiple="multiple" data-placeholder="Enter ingredient" required="">
                               <option id="ingr_{{in.ingredient.id}}" value="{{in.ingredient.name}}" selected="">{{in.ingredient.name}}</option>
                           </select>
                           <input type="number" step=any class="form-control" id="weights" name="weights[]" placeholder="Enter amount" required="" value="{{in.amount}}" />
 
-                          <select class="select2222 form-control" name="values[]" multiple="multiple" data-placeholder="Enter unit" required="">
+                          <select class="select2222 form-control" id="su_{{in.id}}" name="values[]" multiple="multiple" data-placeholder="Enter unit" required="">
                               <option value="{{in.unit.id}}"  selected="">{{in.unit.name}}</option>
                           </select>
                           <input type="button" value="Remove" onclick="removeElement('file-{{in.id}}');" />
@@ -203,6 +203,8 @@
 
 <script type="text/javascript">
 
+
+
   $('.select22').select2({
     tags: true,
     width: '100%',
@@ -225,7 +227,9 @@
     }
   });
 
-    $('.select2222').select2({
+
+
+  $('.select2222').select2({
     tags: false,
     width: '100%',
     maximumSelectionLength: 1,
@@ -246,6 +250,11 @@
         }
     }
   });
+
+
+
+
+
 
 
 
